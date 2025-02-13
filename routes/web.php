@@ -15,4 +15,4 @@ use App\Http\Controllers\SubscriptionController;
 */
 
 Route::get('/', [SubscriptionController::class, 'index']);
-Route::post('/', [SubscriptionController::class, 'subscribe']);
+Route::post('/', [SubscriptionController::class, 'subscribe'])->name('subscribe');

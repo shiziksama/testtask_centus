@@ -11,6 +11,7 @@ use App\Mail\WeatherNotification;
 class UserNotification extends Model
 {
     use HasFactory;
+    protected $fillable = ['user_id','city'];
     public function sendNotificationIfNeed($res){
         if($res->uv>3||$res->pop>50){
             Mail::to($this->user->email)->send(new WeatherNotification($res));
