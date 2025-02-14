@@ -42,7 +42,7 @@ class WeatherNotification extends Mailable
             view: 'emails.weather_notification',
             with: [
                 'weatherData' => $this->weatherData,
-                'uvIndex' => $this->weatherData['uvIndex'],
+                'uvi' => $this->weatherData['uvi'],
                 'pop' => $this->weatherData['pop']
             ],
         );

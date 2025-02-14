@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Services\Weather\WeatherService;
-use   App\Models\UserNotification;
+use App\Models\UserNotification;
 
 class CheckConditions extends Command
 {
@@ -31,7 +31,7 @@ class CheckConditions extends Command
         $userNotifications = UserNotification::all();
         foreach($userNotifications as $notify){
             //TODO cache results
-            $res=$weatherService->getWeatherByCity($notify->city);
+            $res=$weatherService->getWeatherByLocation($notify->city);
             $notify->sendNotificationIfNeed($res);
         }
     }
