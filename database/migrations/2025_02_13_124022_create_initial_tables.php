@@ -15,10 +15,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('city');
-            $table->integer('city_id')->default(0);
             $table->timestamps();
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('city_coords', function (Blueprint $table) {
+            $table->id();
+            $table->string('city_name');
+            $table->decimal('latitude', 10, 7);
+            $table->decimal('longitude', 10, 7);
+            $table->timestamps();
         });
     }
 
@@ -28,5 +34,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('user_notifications');
+        Schema::dropIfExists('city_coords');
     }
 };
