@@ -4,19 +4,15 @@ namespace App\Services\Weather;
 
 use Illuminate\Support\Facades\Http;
 use Cmfcmf\OpenWeatherMap;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Psr7\HttpFactory;
 use App\Models\CityCoords;
 
 class OpenWeatherProvider implements WeatherProvider
 {
     protected string $apiKey;
-    protected GuzzleClient $httpClient;
 
     public function __construct()
     {
         $this->apiKey = config('weather.providers.openweather.api_key');
-        $this->httpClient = new GuzzleClient();
     }
 
     public function getWeatherByLocation($location): array
@@ -47,8 +43,8 @@ class OpenWeatherProvider implements WeatherProvider
     private function fetchGeoData(string $location): array
     {
         $geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q={$location}&limit=1&appid={$this->apiKey}";
-        $geoResponse = $this->httpClient->request('GET', $geoUrl);
-        $geoData = json_decode($geoResponse->getBody(), true);
+        $geoResponse = Http::get($geoUrl);
+        $geoData = $geoResponse->json();
 
         if (empty($geoData)) {
             throw new \Exception("Location not found");
@@ -60,8 +56,8 @@ class OpenWeatherProvider implements WeatherProvider
     private function fetchWeatherData(float $lat, float $lon): array
     {
         $weatherUrl = "https://api.openweathermap.org/data/3.0/onecall?lat={$lat}&lon={$lon}&exclude=daily,minutely&appid={$this->apiKey}";
-        $weatherResponse = $this->httpClient->request('GET', $weatherUrl);
-        $weatherData = json_decode($weatherResponse->getBody(), true)['hourly'][0];
+        $weatherResponse = Http::get($weatherUrl);
+        $weatherData = $weatherResponse->json()['hourly'][0];
 
         return [
             'pop' => $weatherData['pop'] ?? null,
