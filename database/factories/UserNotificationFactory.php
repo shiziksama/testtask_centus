@@ -14,6 +14,8 @@ class UserNotificationFactory extends Factory
         return [
             'user_id' => \App\Models\User::factory(),
             'city' => $this->faker->city,
+            'pop' => $this->faker->randomFloat(2, 0, 100),
+            'uvi' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }

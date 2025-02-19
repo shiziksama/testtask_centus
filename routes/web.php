@@ -23,5 +23,4 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/', [SubscriptionController::class, 'index'])->name('dashboard');
-    Route::post('/', [SubscriptionController::class, 'subscribe'])->name('subscribe');
 });
