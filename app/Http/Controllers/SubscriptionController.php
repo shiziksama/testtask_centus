@@ -11,7 +11,9 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        return view('subscription'); 
+        $user = auth()->user();
+        $notifications = $user ? UserNotification::where('user_id', $user->id)->get() : [];
+        return view('subscription', compact('notifications')); 
     }
 
     public function subscribe(Request $request)

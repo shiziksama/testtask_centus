@@ -11,7 +11,7 @@ class UserNotification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'city'];
+    protected $fillable = ['user_id', 'city','uvi','pop'];
 
     public function user()
     {
@@ -20,7 +20,7 @@ class UserNotification extends Model
 
     public function sendNotificationIfNeed($res)
     {
-        if ($res['uvi'] > 0.3 || $res['pop'] > 0.5) {
+        if ($res['uvi'] > $this->uvi || $res['pop'] > $this->pop) {
             Mail::to($this->user->email)->send(new WeatherNotification($res));
         }
     }
